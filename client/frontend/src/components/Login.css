@@ -1,0 +1,24 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.login-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container h2 {
+}
+
+.login-container input {
+  width: 80%;
+}
+
+.login-container button {
+}
