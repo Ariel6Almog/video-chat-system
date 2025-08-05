@@ -1,24 +1,27 @@
-import React, { useState } from 'react';
-import './Login.css';
+import React, { useState } from "react";
+import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      setError('All of the fields need to be filled');
+      setError("All of the fields need to be filled");
       return;
     }
 
-
     //Send request to the server for validation
     //////////////////////////
-    console.log('Logging in:', { email, password });
-    setError('');
+    console.log("Logging in:", { email, password });
+    setError("");
+    navigate("/chat");
   };
 
   return (

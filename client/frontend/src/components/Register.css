@@ -1,4 +1,4 @@
-.login-container {
+.register-container {
   max-width: 400px;
   margin: 80px auto;
   padding: 2rem;
@@ -9,13 +9,13 @@
   text-align: center;
 }
 
-.login-container h2 {
+.register-container h2 {
   margin-bottom: 1.5rem;
   font-size: 2rem;
   color: #333;
 }
 
-.login-container input {
+.register-container input {
   display: block;
   width: 100%;
   padding: 0.75rem;
@@ -25,10 +25,10 @@
   font-size: 1rem;
 }
 
-.login-container button {
+.register-container button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
   font-weight: bold;
   border: none;
@@ -37,8 +37,8 @@
   transition: background-color 0.3s ease;
 }
 
-.login-container button:hover {
-  background-color: #0056b3;
+.register-container button:hover {
+  background-color: #1e7e34;
 }
 
 .error {
