@@ -20,21 +20,21 @@ function Login() {
     //Send request to the server for validation
     //////////////////////////
     fetch("http://localhost:8080/login", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email, password }),
-})
-  .then((res) => {
-    if (!res.ok) throw new Error("Login failed");
-    return res.json();
-  })
-  .then((data) => {
-    console.log("User logged in:", data);
-    // שמור טוקן אם יש
-    // localStorage.setItem("token", data.token);
-    navigate("/chat");
-  })
-  .catch((err) => setError(err.message));
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Login failed");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("User logged in:", data);
+        // שמור טוקן אם יש
+        // localStorage.setItem("token", data.token);
+        navigate("/chat");
+      })
+      .catch((err) => setError(err.message));
 
     setError("");
     navigate("/chat");

@@ -19,19 +19,19 @@ function Register() {
     }
 
     fetch("http://localhost:8080/register", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ name, email, password }),
-})
-  .then((res) => {
-    if (!res.ok) throw new Error("Registration failed");
-    return res.json();
-  })
-  .then((data) => {
-    console.log("User registered:", data);
-    navigate("/login");
-  })
-  .catch((err) => setError(err.message));
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Registration failed");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("User registered:", data);
+        navigate("/login");
+      })
+      .catch((err) => setError(err.message));
 
     setError("");
     navigate("/login");
