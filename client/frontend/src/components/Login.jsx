@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
@@ -11,6 +11,7 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    
 
     if (!email || !password) {
       setError("All of the fields need to be filled");
@@ -19,7 +20,8 @@ function Login() {
 
     //Send request to the server for validation
     //////////////////////////
-    fetch("http://localhost:8080/login", {
+    
+    fetch("http://localhost:5423/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -62,6 +64,7 @@ function Login() {
 
         <button type="submit">Login</button>
       </form>
+      <Link to="/register">Create an Account</Link>
     </div>
   );
 }
