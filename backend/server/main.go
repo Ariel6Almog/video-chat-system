@@ -18,7 +18,70 @@ type User struct {
 	CreatedAt time.Time `json:"-"`
 }
 
+type UserLog struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type Server struct{ DB *sql.DB }
+
+func (srv *Server) loginFunc(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+
+	if r.Method == http.MethodOptions { // preflight
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+
+	if r.Method != http.MethodPost {
+		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	log.Printf("Incoming %s %s", r.Method, r.URL.Path)
+
+	var in UserLog
+	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
+		http.Error(w, `{"error":"invalid json"}`, http.StatusBadRequest)
+		return
+	}
+	if in.Email == "" || in.Password == "" {
+		http.Error(w, `{"error":"missing fields"}`, http.StatusBadRequest)
+		return
+	}
+
+	// TODO: encrypt password
+
+	q := `
+	SELECT id, name, email
+    FROM users
+    WHERE email = $1 AND password_hash = $2;
+    `
+
+	res, err := srv.DB.Exec(q, in.Email, in.Password)
+
+	if err != nil {
+		log.Println("insert error:", err)
+		http.Error(w, `{"error":"db insert failed"}`, http.StatusInternalServerError)
+		return
+	} else {
+		log.Printf("LOGGED IN")
+	}
+	n, _ := res.RowsAffected()
+	log.Printf("Rows affected: %d", n)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(map[string]any{
+		"ok":       true,
+		"email":    in.Email,
+		"loggedIn": true,
+	})
+
+}
 
 func (srv *Server) registerFunc(w http.ResponseWriter, r *http.Request) {
 	// CORS
@@ -67,8 +130,9 @@ func (srv *Server) registerFunc(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(map[string]any{
-		"ok":    true,
-		"email": in.Email,
+		"ok":       true,
+		"email":    in.Email,
+		"loggedIn": false,
 	})
 }
 
@@ -85,11 +149,13 @@ func main() {
 
 	srv := &Server{DB: db}
 	http.HandleFunc("/api/register", srv.registerFunc)
+	http.HandleFunc("/api/login", srv.loginFunc)
 
 	log.Println("Listening on :5423")
 	if err := http.ListenAndServe(":5423", nil); err != nil {
 		log.Fatal(err)
 	}
+
 }
 
 func openDB() (*sql.DB, error) {

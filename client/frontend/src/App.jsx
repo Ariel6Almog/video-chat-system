@@ -12,6 +12,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/register" element={<Register />} />
+        <Route path="/chat" element={<Chat />} />
         <Route path="/" element={<Login />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
