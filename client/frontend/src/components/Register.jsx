@@ -19,7 +19,7 @@ function Register() {
       return;
     }
 
-    fetch("http://localhost:5423/api/register", {
+    fetch("http://localhost:8080/auth/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, username, email, password }),

@@ -21,7 +21,7 @@ function Login() {
     //Send request to the server for validation
     //////////////////////////
     
-    fetch("http://localhost:5423/api/login", {
+    fetch("http://localhost:8080/auth/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
