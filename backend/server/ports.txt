@@ -1,3 +1,4 @@
 users DB port: 5432
 user logic API port: 8080
 frontend port: 3000
+dasher port: 8090
